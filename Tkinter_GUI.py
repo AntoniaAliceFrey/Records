@@ -4,7 +4,11 @@ from PIL import ImageTk, Image
 from tkinter import messagebox
 import sqlite3
 
-class GUI:
+from Viewer import *
+from Editor import *
+	
+
+class Gui(DbAccess):
 	root=Tk()
 	root.title('Sign in!')
 	root.geometry("430x450")
@@ -25,24 +29,8 @@ class GUI:
 							phone text,
 							birthday text
 							)""")
-
-
-	def connect_to_db(self):
-		'''
-		This function connects to the database and creates a cursor
-		'''
-			# connects to database and create cursor
-		conn = sqlite3.connect(self.database) # in current directory
-		c = conn.cursor()
-		return c, conn
-
-
-	def disconnect_to_db(self,conn):
-		'''
-		This function commits changes and terminates the connection to the database
-		'''
-		conn.commit()
-		conn.close()
+		self.viewer = Viewer(self)
+		self.editor = Editor()
 
 	def create_labels(self,window):
 		'''
@@ -110,67 +98,6 @@ class GUI:
 		self.birthday.delete(0,END)
 		
 		self.disconnect_to_db(conn)
-		
-	def select_data(self, sel_id, window):
-		self.select_box.delete(0,END)
-		self.select_box.insert(0,sel_id)
-		window.destroy()
-
-		
-	def show_data(self):
-		'''
-		This function displays the database content
-		'''		
-		c, conn = self.connect_to_db()
-		
-		# Check
-		number_of_records = len(c.execute("SELECT *, oid FROM contact_data").fetchall())
-		if number_of_records == 0:
-			messagebox.showinfo("INFO", "Add Records!")
-			return
-		
-		# Query the database
-		c.execute("SELECT *, oid FROM contact_data") # * everything, oid=ID
-		records = c.fetchall() # c.fetchone(), c.fetchmany(50)
-		
-		# Create new window for editing
-		viewer = Tk()
-		viewer.title('Show data')
-		viewer.geometry("400x250")
-		
-		# Loop through records and print data
-		radio_var = StringVar(viewer) # set viewer!
-		radio_var.set(str(records[0][5])) #select first one by default
-		pos = 0
-		for record in records:
-			oid = str(record[5])
-			txt = str(record[0])+ " " + str(record[1]) + "\t" + oid
-			Radiobutton(viewer,text=txt, variable=radio_var, value=oid).grid(row=pos, column=0)
-			pos += 1
-		
-		select_btn = Button(viewer,text="Select Record", command=lambda: self.select_data(radio_var.get(),viewer)) # command XXX
-		select_btn.grid(row=pos, column=0, columnspan=2, pady=(10,0), padx=10, ipadx=130)
-				
-		close_btn = Button(viewer,text="Close", command=viewer.destroy)
-		close_btn.grid(row=pos+1, column=0, columnspan=2, pady=(5,10), padx=10, ipadx=156)
-		
-		self.disconnect_to_db(conn)
-		
-
-	def check_id(self, number_of_records=0):
-		'''
-		This function checks the user selected id
-		Every record has an unique oid
-		'''
-		oid = self.select_box.get()
-		if oid == "":
-			messagebox.showerror("ERROR", "Please enter an ID.")
-			return "false"
-		elif int(oid) > number_of_records:
-			messagebox.showerror("ERROR", "Please select a valid ID")
-			return "false"
-		return oid
-
 
 	def delete(self):
 		'''
@@ -214,57 +141,6 @@ class GUI:
 		window.destroy()
 		self.disconnect_to_db(conn)
 
-
-	def edit(self):
-		'''
-		This function edits a record in the database
-		The record is selected with its oid
-		'''
-		c, conn = self.connect_to_db()
-		
-		number_of_records = len(c.execute("SELECT *, oid FROM contact_data").fetchall())
-		sel_id = self.check_id(number_of_records)
-		if sel_id == "false":
-			return
-		
-		# Create new window for editing
-		editor = Tk()
-		editor.title('Edit data')
-		editor.geometry("400x250")
-		
-		save_btn = Button(editor,text="Save changes", command=lambda: self.update(editor))
-		save_btn.grid(row=6, column=0, columnspan=2, pady=(10,0), padx=10, ipadx=130)
-
-		c.execute("SELECT * FROM contact_data WHERE oid = " + sel_id)
-		sel_records = c.fetchall()
-		
-		# create labels and textboxes
-		self.create_labels(editor)
-		if len(sel_records) == 1:
-			data = sel_records[0]
-			
-			self.f_name_editor = Entry(editor, width=30)
-			self.l_name_editor = Entry(editor, width=30)
-			self.email_editor = Entry(editor, width=30)
-			self.phone_editor = Entry(editor, width=30)
-			self.birthday_editor = Entry(editor, width=30)
-		
-			self.f_name_editor.insert(0, data[0])
-			self.l_name_editor.insert(0, data[1])
-			self.email_editor.insert(0, data[2])
-			self.phone_editor.insert(0, data[3])
-			self.birthday_editor.insert(0, data[4])
-		
-			self.f_name_editor.grid(row=0, column=1,padx=20,pady=(10,0)) # Tupel in pady: only 10 to the top
-			self.l_name_editor.grid(row=1, column=1,padx=20)
-			self.email_editor.grid(row=2, column=1,padx=20)
-			self.phone_editor.grid(row=3, column=1,padx=20)
-			self.birthday_editor.grid(row=4, column=1,padx=20)
-			
-		self.select_box.delete(0,END)
-		self.disconnect_to_db(conn)
-
-
 	def make_window(self):
 		# Create a LabelFrame
 		# labels and textboxes to enter data
@@ -277,7 +153,7 @@ class GUI:
 		self.submit_btn = Button(self.data_frame, text="Add Record To Database", command=self.submit)
 		self.submit_btn.grid(row=5, column=0, columnspan=2, pady=(20,0), padx=10, ipadx=100)
 
-		self.query_btn = Button(self.data_frame,text="Show Records", command=self.show_data)
+		self.query_btn = Button(self.data_frame,text="Show Records", command=lambda: self.viewer.make_window())
 		self.query_btn.grid(row=6, column=0, columnspan=2, pady=(5,5), padx=10, ipadx=135)
 
 		# Create a LabelFrame
@@ -292,7 +168,7 @@ class GUI:
 		self.select_box = Entry(self.select_frame, width=30)
 		self.select_box.grid(row=0, column=1)
 
-		self.edit_btn = Button(self.select_frame,text="Edit Record", command=self.edit)
+		self.edit_btn = Button(self.select_frame,text="Edit Record", command=lambda: self.editor.make_window(self.select_box.get()))
 		self.edit_btn.grid(row=1, column=0, columnspan=2, pady=(20,0), padx=10, ipadx=145)
 
 		self.delete_btn = Button(self.select_frame,text="Delete Record", command=self.delete)
@@ -303,10 +179,9 @@ class GUI:
 		#status.grid(row=13,column=0,columnspan=2, sticky=W+E)
 
 	def run(self):
-		self.root.mainloop()
-	
+		self.root.mainloop()				
 	
 if __name__ == "__main__":
-	g = GUI()
+	g = Gui()
 	g.make_window()
 	g.run()
