@@ -3,10 +3,10 @@ from pathlib import Path
 from tkinter import messagebox
 import sqlite3
 
-from Check import *
+from DataCheck import *
 from DbAccess import *
 
-class Viewer(Check, DbAccess):
+class Viewer(DataCheck, DbAccess):
 	def __init__(self, gui):
 		self.gui = gui
 		
@@ -16,14 +16,22 @@ class Viewer(Check, DbAccess):
 		#self.select_box.insert(0,sel_id)
 		window.destroy()
 		
-	def make_window(self):
+	def make_window(self, search_data):
 		#def show_data(self):
 		'''
 		This class displays the database content
 		'''		
 		c, conn = self.connect_to_db()
+
+# TODO
+#		f_name = search_data[0]
+#		if search_data[0] != "":
+#			c.execute("SELECT * FROM contact_data WHERE first_name = " + f_name)
+#			data = c.fetchall()
+#			print("ToDo")
+#			return
 		
-		# Check
+		# DataCheck
 		number_of_records = len(c.execute("SELECT *, oid FROM contact_data").fetchall())
 		if number_of_records == 0:
 			messagebox.showinfo("INFO", "Add Records!")

@@ -3,10 +3,10 @@ from pathlib import Path
 from tkinter import messagebox
 import sqlite3
 
-from Check import *
+from DataCheck import *
 from DbAccess import *
 
-class Editor(Check, DbAccess):
+class Editor(DataCheck, DbAccess):
 
 	def create_labels(self,window):
 		'''
@@ -56,7 +56,7 @@ class Editor(Check, DbAccess):
 		'''
 		c, conn = self.connect_to_db()
 		
-		# Check
+		# dataCheck
 		number_of_records = len(c.execute("SELECT *, oid FROM contact_data").fetchall())
 		sel_id = self.check_id(oid, number_of_records)
 		if sel_id == "false":
@@ -95,7 +95,7 @@ class Editor(Check, DbAccess):
 		window.destroy()
 		self.disconnect_to_db(conn)
 
-	def make_window(self, oid): #TODO
+	def make_window(self, oid):
 		'''
 		This function edits a record in the database
 		The record is selected with its oid

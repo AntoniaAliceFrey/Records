@@ -6,33 +6,31 @@ import sqlite3
 
 from DbAccess import *
 
-class Check:
+class DataCheck:
+	def check_new_record(self, data):
+		if data[0] == "" or data[1] == "":
+			messagebox.showerror("ERROR", "Name cannot be empty!")
+			return "false"
+	 
+	 
 	def check_id(self, oid, number_of_records):
 		'''
 		This function checks the user selected id
 		Every record has an unique oid
-		'''
-		
-		#print("debug: oid=" + str(oid) +", number of records=" + str(number_of_records))
-		
+		'''		
 		if oid == "":
 			messagebox.showerror("ERROR", "Please enter an ID.")
 			return "false"
 		elif int(oid) > number_of_records:
 			messagebox.showerror("ERROR", "Please select a valid ID")
 			return "false"
-		
-		# TODO	
-		#self.select_box.delete(0,END)
+			
 		return oid
 		
 	def check_data(self, data, func=None):
 		'''
 		This function controls ...
 		'''
-		#print("debug: data= " )
-		#print(data)
-		
 		if len(data) == 0:
 			messagebox.showerror("ERROR", "Selected Record not found.\n Check the Record ID")
 			return "false"

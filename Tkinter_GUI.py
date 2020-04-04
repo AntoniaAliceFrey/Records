@@ -79,6 +79,12 @@ class Gui(DbAccess):
 		It sends the contact data to the database
 		'''
 		c, conn = self.connect_to_db()
+		new_record = self.get_data()
+		
+		# Check
+		chk = Editor.check_new_record(self, new_record) # ?
+		if chk == "false":
+			return
 		
 		c.execute("INSERT INTO contact_data VALUES (:f_name, :l_name, :email, :phone, :birthday)",
 							{
@@ -90,6 +96,14 @@ class Gui(DbAccess):
 							}
 				)
 				
+		self.clear_textboxes()
+		self.disconnect_to_db(conn)
+	
+	def get_data(self):
+		data = [self.f_name.get(), self.l_name.get(), self.email.get(), self.phone.get(), self.birthday.get()]
+		return data
+		
+	def clear_textboxes(self):
 		# Clear textboxes
 		self.f_name.delete(0,END)
 		self.l_name.delete(0,END)
@@ -97,13 +111,8 @@ class Gui(DbAccess):
 		self.phone.delete(0,END)
 		self.birthday.delete(0,END)
 		
-		self.disconnect_to_db(conn)
-		
-	def update_sel_box(self): #TODO
-		#self.select_box.delete(0,END)
-		print("ToDo")
-		return
-		
+	def clear_sel_box(self):
+		self.select_box.delete(0,END)
 
 	def make_window(self):
 	
@@ -118,13 +127,12 @@ class Gui(DbAccess):
 		self.submit_btn = Button(self.data_frame, text="Add Record To Database", command=self.submit)
 		self.submit_btn.grid(row=5, column=0, columnspan=2, pady=(20,0), padx=10, ipadx=100)
 
-		self.query_btn = Button(self.data_frame,text="Show Records", command=lambda: self.viewer.make_window())
+		self.query_btn = Button(self.data_frame,text="Show Records", command=lambda: self.viewer.make_window(self.get_data()))
 		self.query_btn.grid(row=6, column=0, columnspan=2, pady=(5,5), padx=10, ipadx=135)
 
 		# Create a LabelFrame
 		# select label and box
 		# edit button and delete button
-
 		self.select_frame = LabelFrame(self.root, text="Edit Data", padx=2, pady=10)
 		self.select_frame.grid(row=1, column=0, columnspan=2, padx=5, pady=5) # padding outside
 
@@ -133,10 +141,10 @@ class Gui(DbAccess):
 		self.select_box = Entry(self.select_frame, width=30)
 		self.select_box.grid(row=0, column=1)
 
-		self.edit_btn = Button(self.select_frame,text="Edit Record", command=lambda: self.editor.make_window(self.select_box.get()))
+		self.edit_btn = Button(self.select_frame,text="Edit Record", command=lambda: [self.editor.make_window(self.select_box.get()),self.clear_sel_box()])
 		self.edit_btn.grid(row=1, column=0, columnspan=2, pady=(20,0), padx=10, ipadx=145)
 
-		self.delete_btn = Button(self.select_frame,text="Delete Record", command=lambda: self.editor.delete_record(self.select_box.get()))
+		self.delete_btn = Button(self.select_frame,text="Delete Record", command=lambda: [self.editor.delete_record(self.select_box.get()), self.clear_sel_box()])
 		self.delete_btn.grid(row=2, column=0, columnspan=2, pady=(5,5), padx=10, ipadx=135)
 
 		# Statusbar at bottom of root window
