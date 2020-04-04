@@ -10,26 +10,35 @@ class Viewer(DataCheck, DbAccess):
 	def __init__(self, gui):
 		self.gui = gui
 		
-	def select_data(self, sel_id, window):
-		#TODO: Insert selected data into GUI main window
-		#self.select_box.delete(0,END)
-		#self.select_box.insert(0,sel_id)
+	def select_data(self, window):
+		self.selected = self.radio_var.get()
+		print(self.selected)
 		window.destroy()
 		
+	
+	def print_data(self, window, data):
+		
+		self.radio_var = StringVar(window) # set viewer!
+		self.radio_var.set(str(data[0][5]))
+		
+		# Loop through data and print records
+		pos = 0
+		for record in data:
+			oid = str(record[5])
+			txt = oid +": "+ str(record[0])+ " " + str(record[1])
+			Radiobutton(window,text=txt, variable=self.radio_var, value=oid).grid(row=pos, column=0,sticky=W)
+			pos += 1
+					
+		return pos
+	
 	def make_window(self, search_data):
 		#def show_data(self):
 		'''
 		This class displays the database content
-		'''		
+		'''
 		c, conn = self.connect_to_db()
-
-# TODO
-#		f_name = search_data[0]
-#		if search_data[0] != "":
-#			c.execute("SELECT * FROM contact_data WHERE first_name = " + f_name)
-#			data = c.fetchall()
-#			print("ToDo")
-#			return
+		
+		self.selected = "oid" # !!! Debug
 		
 		# DataCheck
 		number_of_records = len(c.execute("SELECT *, oid FROM contact_data").fetchall())
@@ -37,29 +46,42 @@ class Viewer(DataCheck, DbAccess):
 			messagebox.showinfo("INFO", "Add Records!")
 			return
 		
-		# Query the database
-		c.execute("SELECT *, oid FROM contact_data") # * everything, oid=ID
-		records = c.fetchall() # c.fetchone(), c.fetchmany(50)
+		f_name = search_data[0]
 		
-		# Create new window for editing
-		viewer = Tk()
-		viewer.title('Show data')
-		viewer.geometry("400x250")
+		if search_data[0] != "":
+			# print records with same first name
+			c.execute("SELECT *,oid FROM contact_data WHERE first_name ='" +f_name+"'")
+			sel_records = c.fetchall()
+			
+			chk = self.check_data(data=sel_records,max_data=100)
+			if chk == "false":
+				return
+
+			# Create new window #TODO
+			viewer = Tk()
+			viewer.title('Show data')
+			viewer.geometry("400x250")
+			
+			pos = self.print_data(viewer, sel_records)
+			
+		else:
+			
+			# Create new window
+			viewer = Tk()
+			viewer.title('Show data')
+			viewer.geometry("400x250")
+			
+			# print all records
+			c.execute("SELECT *, oid FROM contact_data")
+			all_records = c.fetchall() # c.fetchone(), c.fetchmany(50)
+			pos = self.print_data(viewer, all_records)
 		
-		# Loop through records and print data
-		radio_var = StringVar(viewer) # set viewer!
-		radio_var.set(str(records[0][5])) #select first one by default
-		pos = 0
-		for record in records:
-			oid = str(record[5])
-			txt = str(record[0])+ " " + str(record[1]) + "\t" + oid
-			Radiobutton(viewer,text=txt, variable=radio_var, value=oid).grid(row=pos, column=0)
-			pos += 1
-		
-		select_btn = Button(viewer,text="Select Record", command=lambda: self.select_data(radio_var.get(),viewer)) # command XXX
+		select_btn = Button(viewer,text="Select Record", command=lambda: self.select_data(viewer))
 		select_btn.grid(row=pos, column=0, columnspan=2, pady=(10,0), padx=10, ipadx=130)
 				
 		close_btn = Button(viewer,text="Close", command=viewer.destroy)
 		close_btn.grid(row=pos+1, column=0, columnspan=2, pady=(5,10), padx=10, ipadx=156)
+		
+		return self.selected #TODO
 		
 		self.disconnect_to_db(conn)

@@ -111,7 +111,7 @@ class Editor(DataCheck, DbAccess):
 			
 		c.execute("SELECT * FROM contact_data WHERE oid = " + sel_id)
 		data = c.fetchall()
-		record_data = self.check_data(data, "edit")
+		record_data = self.check_data(data=data, func="edit")
 		if record_data == "false":
 			return
 

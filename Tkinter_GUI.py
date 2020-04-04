@@ -113,6 +113,13 @@ class Gui(DbAccess):
 		
 	def clear_sel_box(self):
 		self.select_box.delete(0,END)
+		
+	def show_data(self):
+		# TODO sel_oid is wrong
+		sel_oid = self.viewer.make_window(self.get_data())
+		self.clear_textboxes()
+		self.select_box.delete(0,END)
+		self.select_box.insert(0,sel_oid)
 
 	def make_window(self):
 	
@@ -127,7 +134,7 @@ class Gui(DbAccess):
 		self.submit_btn = Button(self.data_frame, text="Add Record To Database", command=self.submit)
 		self.submit_btn.grid(row=5, column=0, columnspan=2, pady=(20,0), padx=10, ipadx=100)
 
-		self.query_btn = Button(self.data_frame,text="Show Records", command=lambda: self.viewer.make_window(self.get_data()))
+		self.query_btn = Button(self.data_frame,text="Show Records", command=self.show_data)
 		self.query_btn.grid(row=6, column=0, columnspan=2, pady=(5,5), padx=10, ipadx=135)
 
 		# Create a LabelFrame

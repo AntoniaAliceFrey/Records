@@ -27,7 +27,7 @@ class DataCheck:
 			
 		return oid
 		
-	def check_data(self, data, func=None):
+	def check_data(self, data, func=None, max_data=1):
 		'''
 		This function controls ...
 		'''
@@ -35,7 +35,7 @@ class DataCheck:
 			messagebox.showerror("ERROR", "Selected Record not found.\n Check the Record ID")
 			return "false"
 		
-		if len(data) > 1:
+		if len(data) > int(max_data):
 			messagebox.showerror("ERROR", "Ooops something went wrong")
 			return "false"
 		
