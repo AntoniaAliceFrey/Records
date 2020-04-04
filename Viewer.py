@@ -3,16 +3,17 @@ from pathlib import Path
 from tkinter import messagebox
 import sqlite3
 
-from IdCheck import *
+from Check import *
 from DbAccess import *
 
-class Viewer(IdCheck, DbAccess):
+class Viewer(Check, DbAccess):
 	def __init__(self, gui):
 		self.gui = gui
 		
 	def select_data(self, sel_id, window):
-		self.select_box.delete(0,END)
-		self.select_box.insert(0,sel_id)
+		#TODO: Insert selected data into GUI main window
+		#self.select_box.delete(0,END)
+		#self.select_box.insert(0,sel_id)
 		window.destroy()
 		
 	def make_window(self):

@@ -98,50 +98,15 @@ class Gui(DbAccess):
 		self.birthday.delete(0,END)
 		
 		self.disconnect_to_db(conn)
-
-	def delete(self):
-		'''
-		This function deletes a selected record in the database
-		The record is selected with its oid
-		'''
-		c, conn = self.connect_to_db()
 		
-		number_of_records = len(c.execute("SELECT *, oid FROM contact_data").fetchall())
-		sel_id = self.check_id(number_of_records)
-		if sel_id == "false":
-			return
+	def update_sel_box(self): #TODO
+		#self.select_box.delete(0,END)
+		print("ToDo")
+		return
 		
-		c.execute("DELETE from contact_data WHERE oid = " + sel_id)
-
-		self.select_box.delete(0,END)
-		self.disconnect_to_db(conn)
-
-
-	def update(self,window=None):
-		'''
-		This function saves changes of editing records
-		'''
-		c, conn = self.connect_to_db()
-		record_id = self.select_box.get()
-		
-		c.execute(""" UPDATE contact_data 
-		              SET first_name = :first, 
-											last_name = :last,
-											email = :email,
-											phone = :phone,
-											birthday = :birthday
-									WHERE oid = :oid """,
-			{	'first': self.f_name_editor.get(),
-				'last': self.l_name_editor.get(),
-				'email': self.email_editor.get(),
-				'phone': self.phone_editor.get(),
-				'birthday': self.birthday_editor.get(),
-				'oid': record_id # necessary	
-			})
-		window.destroy()
-		self.disconnect_to_db(conn)
 
 	def make_window(self):
+	
 		# Create a LabelFrame
 		# labels and textboxes to enter data
 		# submit button and show records button
@@ -171,7 +136,7 @@ class Gui(DbAccess):
 		self.edit_btn = Button(self.select_frame,text="Edit Record", command=lambda: self.editor.make_window(self.select_box.get()))
 		self.edit_btn.grid(row=1, column=0, columnspan=2, pady=(20,0), padx=10, ipadx=145)
 
-		self.delete_btn = Button(self.select_frame,text="Delete Record", command=self.delete)
+		self.delete_btn = Button(self.select_frame,text="Delete Record", command=lambda: self.editor.delete_record(self.select_box.get()))
 		self.delete_btn.grid(row=2, column=0, columnspan=2, pady=(5,5), padx=10, ipadx=135)
 
 		# Statusbar at bottom of root window

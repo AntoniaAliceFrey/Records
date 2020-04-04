@@ -1,3 +1,8 @@
-TO DO
+work in progress...
 
-- fix edit data functionality
+ToDo:
+- Viewer: insert selected data oid into main GUI window
+- Editor: delete oid in GUI after editing, multiple commands to one button?
+- Editor: add close button and show message if close is pushed without saving before
+
+
