@@ -55,14 +55,8 @@ class Editor(DataCheck, DbAccess):
 		The record is selected with its oid
 		'''
 		c, conn = self.connect_to_db()
-		
-		# dataCheck
-		number_of_records = len(c.execute("SELECT *, oid FROM contact_data").fetchall())
-		sel_id = self.check_id(oid, number_of_records)
-		if sel_id == "false":
-			return
 			
-		c.execute("SELECT * FROM contact_data WHERE oid = " + sel_id)
+		c.execute("SELECT * FROM contact_data WHERE oid = " + oid)
 		data = c.fetchall()
 		record_data = self.check_data(data)
 		if record_data == "false":
