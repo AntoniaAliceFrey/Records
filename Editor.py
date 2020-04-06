@@ -58,7 +58,7 @@ class Editor(DataCheck, DbAccess):
 			return
 		
 		c, conn = self.connect_to_db()	
-		c.execute("DELETE from contact_data WHERE oid = " + oid)		
+		c.execute("DELETE from contact_data WHERE oid = " + record_oid)		
 		self.disconnect_to_db(conn)
 	
 	def update(self, record_oid, window):
