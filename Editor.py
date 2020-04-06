@@ -5,9 +5,9 @@ from DbAccess import *
 
 class Editor(DataCheck, DbAccess):
 
-	def create_labels(self,window):
+	def create_labels(self, window):
 		'''
-		This function creates the contact labels in the selected window
+		This function creates the contact labels in window.
 		'''
 		self.f_name_label = Label(window, text="First Name")
 		self.l_name_label = Label(window, text="Last Name")
@@ -24,7 +24,8 @@ class Editor(DataCheck, DbAccess):
 
 	def create_textboxes(self, window, data=None):
 		'''
-		This function creates the contact textboxes in the selected window
+		This function creates the textboxes in window.
+		If data is not None, then record data is inserted in the textboxes.
 		'''
 		
 		self.f_name = Entry(window, width=30)
@@ -46,12 +47,13 @@ class Editor(DataCheck, DbAccess):
 		self.phone.grid(row=3, column=1,padx=20)
 		self.birthday.grid(row=4, column=1,padx=20)
 		
-	def delete_record(self, oid):
+	def delete_record(self, record_oid):
 		'''
-		This function deletes a selected record in the database
-		The record is selected with its oid
+		This function deletes a user selected record in the database.
+		The record is selected with radiobuttons which control a variable with the associated record oid.
 		'''
-		chk = self.check_sel(oid)
+		# Check whether one radio button is selected 
+		chk = self.check_sel(record_oid)
 		if not chk:
 			return
 		
@@ -61,7 +63,8 @@ class Editor(DataCheck, DbAccess):
 	
 	def update(self, record_oid, window):
 		'''
-		This function updates the record database
+		This function updates a record in the database.
+		The record is selected with radiobuttons which control a variable with the associated record oid.
 		'''
 		c, conn = self.connect_to_db()
 		
@@ -84,24 +87,24 @@ class Editor(DataCheck, DbAccess):
 
 	def make_window(self, oid):
 		'''
-		This function creates a window to edit a user selected record.
+		This function creates a window to edit a selected record.
 		A record is selected by clicking a radiobutton in the viewer window.
-		All radiobuttons have one variable which contains the oid value of the selected record.
+		Radiobuttons have one variable which contains the oid value of the selected record.
 		'''
+		# Check whether one radio button is selected 
 		chk = self.check_sel(oid)
 		if not chk:
 			return
 	
-		c, conn = self.connect_to_db()
-		
-		c.execute("SELECT * FROM contact_data WHERE oid = " + oid)
-		data = c.fetchall()
-		record_data = data[0]
-
-		# Create new window for editing
+		# Create new window
 		editor = Tk()
 		editor.title('Edit data')
 		editor.geometry("400x200")
+		
+		c, conn = self.connect_to_db()
+		c.execute("SELECT * FROM contact_data WHERE oid = " + oid)
+		data = c.fetchall()
+		record_data = data[0]
 		
 		# Create labels and textboxes
 		self.create_labels(editor)

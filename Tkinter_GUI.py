@@ -4,6 +4,7 @@ from pathlib import Path
 from Viewer import *	
 
 class Gui(DbAccess):
+
 	root=Tk()
 	root.title('Sign in!')
 	root.geometry("455x340")
@@ -11,6 +12,7 @@ class Gui(DbAccess):
 
 	database = "contact_data.db"
 	my_db = Path(database)
+	
 	
 	def __init__(self):
 		if not self.my_db.is_file():
@@ -23,11 +25,12 @@ class Gui(DbAccess):
 							phone text,
 							birthday text
 							)""")
-		self.viewer = Viewer() # self ?
+		self.viewer = Viewer()
+
 
 	def create_labels(self,window):
 		'''
-		This function creates the contact labels in the selected window
+		This function creates the contact labels in window.
 		'''
 		self.f_name_label = Label(window, text="First Name")
 		self.l_name_label = Label(window, text="Last Name")
@@ -44,7 +47,7 @@ class Gui(DbAccess):
 
 	def create_textboxes(self, window, data=None):
 		'''
-		This function creates the contact textboxes in the selected window
+		This function creates the contact textboxes in window.
 		'''
 		self.f_name = Entry(window, width=30)
 		self.l_name = Entry(window, width=30)
@@ -64,11 +67,12 @@ class Gui(DbAccess):
 		self.email.grid(row=2, column=1,padx=20)
 		self.phone.grid(row=3, column=1,padx=20)
 		self.birthday.grid(row=4, column=1,padx=20)
+		
 
 	def submit(self):
 		'''
-		This function submits new data to the database
-		It sends the contact data to the database
+		This function submits a new record to the database.
+		It sends the record data to the database if the name textboxes are not empty.
 		'''
 		new_record = self.get_data()
 		
@@ -88,27 +92,31 @@ class Gui(DbAccess):
 			)
 			self.clear_textboxes()
 			self.disconnect_to_db(conn)
+			
 	
 	def get_data(self):
 		'''
-		This function ...
+		This function reads the content in the textboxes and returns a list with the record data.
 		'''
-		data = [self.f_name.get(), self.l_name.get(), self.email.get(), self.phone.get(), self.birthday.get()]
-		return data
+		record_data = [self.f_name.get(), self.l_name.get(), self.email.get(), self.phone.get(), self.birthday.get()]
+		return record_data
+		
 		
 	def clear_textboxes(self):
 		'''
-		This function ...
+		This function deletes the content in the textboxes.
 		'''
-
 		self.f_name.delete(0,END)
 		self.l_name.delete(0,END)
 		self.email.delete(0,END)
 		self.phone.delete(0,END)
 		self.birthday.delete(0,END)	
 
+
 	def make_window(self):
-		
+		'''
+		This function creates a GUI window.
+		'''
 		self.data_frame = LabelFrame(self.root, text="Contact", padx=2, pady=10)
 		self.data_frame.grid(row=0, column=0, columnspan=2, padx=20, pady=30) # padding outside
 		self.create_labels(self.data_frame)
