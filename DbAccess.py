@@ -1,6 +1,4 @@
 from tkinter import *
-from pathlib import Path
-from tkinter import messagebox
 import sqlite3
 
 class DbAccess:

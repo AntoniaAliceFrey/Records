@@ -1,9 +1,6 @@
 from tkinter import *
-from pathlib import Path
-from PIL import ImageTk, Image
-from tkinter import messagebox
 import sqlite3
-
+from pathlib import Path
 from Viewer import *	
 
 class Gui(DbAccess):
@@ -26,7 +23,7 @@ class Gui(DbAccess):
 							phone text,
 							birthday text
 							)""")
-		self.viewer = Viewer(self) # self ?
+		self.viewer = Viewer() # self ?
 
 	def create_labels(self,window):
 		'''
@@ -73,26 +70,24 @@ class Gui(DbAccess):
 		This function submits new data to the database
 		It sends the contact data to the database
 		'''
-		c, conn = self.connect_to_db()
 		new_record = self.get_data()
 		
 		# Check
-		chk = Editor.check_new_record(self, new_record) # ?
-		if chk == "false":
-			return
+		chk = Editor.check_new_record(self, new_record)
 		
-		c.execute("INSERT INTO contact_data VALUES (:f_name, :l_name, :email, :phone, :birthday)",
-							{
-								'f_name': self.f_name.get(),
-								'l_name': self.l_name.get(),
-								'email': self.email.get(),
-								'phone': self.phone.get(),
-								'birthday': self.birthday.get()
-							}
-				)
-				
-		self.clear_textboxes()
-		self.disconnect_to_db(conn)
+		if chk:
+			c, conn = self.connect_to_db()
+			c.execute("INSERT INTO contact_data VALUES (:f_name, :l_name, :email, :phone, :birthday)",
+								{
+									'f_name': self.f_name.get(),
+									'l_name': self.l_name.get(),
+									'email': self.email.get(),
+									'phone': self.phone.get(),
+									'birthday': self.birthday.get()
+								}
+			)
+			self.clear_textboxes()
+			self.disconnect_to_db(conn)
 	
 	def get_data(self):
 		'''
@@ -119,11 +114,11 @@ class Gui(DbAccess):
 		self.create_labels(self.data_frame)
 		self.create_textboxes(self.data_frame)
 
-		self.submit_btn = Button(self.data_frame, text="Add Record To Database", command=self.submit)
-		self.submit_btn.grid(row=5, column=0, columnspan=2, pady=(20,0), padx=10, ipadx=100)
+		self.submit_btn = Button(self.data_frame, text="Add Record", command=self.submit)
+		self.submit_btn.grid(row=5, column=0, columnspan=2, pady=(20,0), padx=10, ipadx=142)
 
-		self.query_btn = Button(self.data_frame,text="Show Records", command=lambda: [self.viewer.make_window(self.get_data()), self.clear_textboxes])
-		self.query_btn.grid(row=6, column=0, columnspan=2, pady=(5,5), padx=10, ipadx=135)
+		self.query_btn = Button(self.data_frame,text="Search Records", command=lambda: [self.viewer.make_window(self.get_data()), self.clear_textboxes])
+		self.query_btn.grid(row=6, column=0, columnspan=2, pady=(5,5), padx=10, ipadx=129)
 
 		# Statusbar at bottom of root window
 		status = Label(self.root, text="Contact Form ", relief=SUNKEN, anchor=E)

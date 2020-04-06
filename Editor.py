@@ -1,8 +1,5 @@
 from tkinter import *
-from pathlib import Path
-from tkinter import messagebox
 import sqlite3
-
 from DataCheck import *
 from DbAccess import *
 
@@ -54,23 +51,19 @@ class Editor(DataCheck, DbAccess):
 		This function deletes a selected record in the database
 		The record is selected with its oid
 		'''
-		c, conn = self.connect_to_db()
-			
-		c.execute("SELECT * FROM contact_data WHERE oid = " + oid)
-		data = c.fetchall()
-		record_data = self.check_data(data)
-		if record_data == "false":
+		chk = self.check_sel(oid)
+		if not chk:
 			return
 		
+		c, conn = self.connect_to_db()	
 		c.execute("DELETE from contact_data WHERE oid = " + oid)		
 		self.disconnect_to_db(conn)
 	
-	def update(self,window=None):
+	def update(self, record_oid, window):
 		'''
-		This function saves changes of editing records
+		This function updates the record database
 		'''
 		c, conn = self.connect_to_db()
-		record_id = self.oid
 		
 		c.execute(""" UPDATE contact_data 
 		              SET first_name = :first, 
@@ -84,41 +77,38 @@ class Editor(DataCheck, DbAccess):
 				'email': self.email.get(),
 				'phone': self.phone.get(),
 				'birthday': self.birthday.get(),
-				'oid': record_id # necessary	
+				'oid': record_oid
 			})
 		window.destroy()
 		self.disconnect_to_db(conn)
 
 	def make_window(self, oid):
 		'''
-		This function edits a record in the database
-		The record is selected with its oid
+		This function creates a window to edit a user selected record.
+		A record is selected by clicking a radiobutton in the viewer window.
+		All radiobuttons have one variable which contains the oid value of the selected record.
 		'''
+		chk = self.check_sel(oid)
+		if not chk:
+			return
+	
 		c, conn = self.connect_to_db()
-		self.oid = oid #??
 		
-		# Check
-		number_of_records = len(c.execute("SELECT *, oid FROM contact_data").fetchall())
-		sel_id = self.check_id(oid, number_of_records)
-		if sel_id == "false":
-			return
-			
-		c.execute("SELECT * FROM contact_data WHERE oid = " + sel_id)
+		c.execute("SELECT * FROM contact_data WHERE oid = " + oid)
 		data = c.fetchall()
-		record_data = self.check_data(data=data, func="edit")
-		if record_data == "false":
-			return
+		record_data = data[0]
 
 		# Create new window for editing
 		editor = Tk()
 		editor.title('Edit data')
 		editor.geometry("400x200")
 		
-		save_btn = Button(editor,text="Save changes", command=lambda: self.update(editor))
-		save_btn.grid(row=6, column=0, columnspan=2, pady=(10,0), padx=10, ipadx=130)
-		
 		# Create labels and textboxes
 		self.create_labels(editor)
 		self.create_textboxes(editor, record_data)
+		
+		# Create a save button
+		save_btn = Button(editor,text="Save changes", command=lambda: self.update(oid, editor))
+		save_btn.grid(row=6, column=0, columnspan=2, pady=(10,0), padx=10, ipadx=130)
 		
 		self.disconnect_to_db(conn)

@@ -1,6 +1,4 @@
 from tkinter import *
-from pathlib import Path
-from tkinter import messagebox
 import sqlite3
 
 from Editor import *
@@ -8,38 +6,36 @@ from DataCheck import *
 from DbAccess import *
 
 class Viewer(DataCheck, DbAccess):
-	def __init__(self, gui):
-		self.gui = gui		
+
+	def __init__(self):
+		self.editor = Editor()
 	
-	def process_data(self, data):
+	def find_records(self, search_data=None):
 	
 		c, conn = self.connect_to_db()
-		
-		# DatabaseCheck
-		number_of_records = len(c.execute("SELECT *, oid FROM contact_data").fetchall())
-		chk = self.DbCheck(number_of_records)
-		if chk == "false":
-			return [],"DB empty"
-		
-		f_name = data[0]
-		if f_name != "":
-			# print records with same first name
-			c.execute("SELECT *,oid FROM contact_data WHERE first_name ='" +f_name+"'")
-			records = c.fetchall()
-			txt = "[ " + f_name + " ]"
-			chk = self.check_data(records) #TODO
-			
+
+		if search_data:
+			f_name = search_data[0]
+			l_name = search_data[1]
+			if f_name != "":
+				# print records with same first name
+				c.execute("SELECT *,oid FROM contact_data WHERE first_name ='" +f_name+"'")
+				records = c.fetchall()
+				self.check_search_result(records)
 		else:
-			# print all records
+			# all records
 			c.execute("SELECT *, oid FROM contact_data")
 			records = c.fetchall() # c.fetchone(), c.fetchmany(50)
-			txt = "[all]"
 		
 		self.disconnect_to_db(conn)
-		return records, txt
+		return records
 	
-	def print_data(self, window, data):
-		self.radio_var = StringVar(window) # set viewer!
+	def update_window(self):
+		print("update window")
+		return
+	
+	def print_records(self, data):
+		self.radio_var = StringVar(self.viewer)
 		#self.radio_var.set(str(data[0][5]))
 		
 		# Loop through data and print records
@@ -47,34 +43,58 @@ class Viewer(DataCheck, DbAccess):
 		for record in data:
 			oid = record[5]
 			txt = str(record[0])+ " " + str(record[1])
-			Radiobutton(window,text=txt, variable=self.radio_var, value=oid).grid(row=pos, column=0,sticky=W)
+			Radiobutton(self.viewer,text=txt, variable=self.radio_var, value=oid).grid(row=pos, column=0,sticky=W)
 			pos += 1
 					
 		return pos
-	
-	def make_window(self, search_data=None):
-		'''
-		This class shows the database content
-		'''
-		self.editor = Editor()
 		
-		records, txt = self.process_data(search_data)
+	
+	def window_checks(self, data):
+		'''
+		This function ...
+		'''
+		try:
+			# when updating window
+			self.viewer.destroy()
+		except:
+			pass
+		
+		chk = self.check_db()
+		if not chk:
+			return []
+			
+		search = self.check_search_data(data)
+
+		if search:
+			# only records which match textbox content
+			records = self.find_records(data)
+		else:
+			# all records
+			records = self.find_records()
+		return records 
+		
+	
+	def make_window(self, data):
+		'''
+		This function ...
+		'''
+		records = self.window_checks(data)
 		if len(records) == 0:
 			return
-			
-		# Create new window
-		viewer = Tk()
-		viewer.title("Records " + txt)
+		
+		self.viewer = Tk()
 		y_win = 150 + len(records)*20
-		viewer.geometry("400x"+ str(y_win))
-		pos = self.print_data(viewer, records)
+		self.viewer.geometry("400x"+ str(y_win))
+		self.viewer.title("Records")
+		
+		pos = self.print_records(records)
 			
-		edit_btn = Button(viewer,text="Edit Record", command=lambda: [self.editor.make_window(self.radio_var.get()),viewer.destroy()])
-		edit_btn.grid(row=pos, column=0, columnspan=2, pady=(10,0), padx=10, ipadx=135)
+		edit_btn = Button(self.viewer,text="Edit Record", command=lambda: [self.editor.make_window(self.radio_var.get()), self.make_window(data)])
+		edit_btn.grid(row=pos, column=0, columnspan=2, pady=(20,0), padx=10, ipadx=135)
 
-		delete_btn = Button(viewer,text="Delete Record", command=lambda: [self.editor.delete_record(self.radio_var.get()), viewer.destroy()])
+		delete_btn = Button(self.viewer,text="Delete Record", command=lambda: [self.editor.delete_record(self.radio_var.get()), self.make_window(data)])
 		delete_btn.grid(row=pos+1, column=0, columnspan=2, pady=(5,0), padx=10, ipadx=125)		
 		
-		close_btn = Button(viewer,text="Close", command=viewer.destroy)
+		close_btn = Button(self.viewer,text="Close", command=self.viewer.destroy)
 		close_btn.grid(row=pos+2, column=0, columnspan=2, pady=(5,0), padx=10, ipadx=153)	
 		
