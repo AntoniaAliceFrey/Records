@@ -2,10 +2,13 @@ from tkinter import messagebox
 import sqlite3
 
 class DataCheck:
+    '''
+    This class contains some check methods to validate user entered data and selections.
+    '''
 
     def __init__(self):
         '''
-        Init method
+        Initialization
         '''
 
     def is_int(self, var):

@@ -5,7 +5,8 @@ from DbAccess import *
 
 class Viewer(DataCheck, DbAccess):
     '''
-    This class...
+    This class visualizes the database content.
+    if the textboxes in the main window are empty, all records in the database are shown.
     '''
 
     def __init__(self):
@@ -90,7 +91,7 @@ class Viewer(DataCheck, DbAccess):
         This function calls the editor if a radio button is selected
         '''
         # Check whether one radio button is selected
-        # TODO why does the viewer window close here? XXX
+        # XXX why does the viewer window close here?
         chk = self.check_sel(oid)
         if chk:
             self.viewer.destroy()

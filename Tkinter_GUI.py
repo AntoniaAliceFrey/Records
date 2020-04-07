@@ -4,7 +4,7 @@ from Viewer import *
 
 class Gui(DbAccess):
     '''
-    This class contains the functionality for the main GUI window.
+    This class contains the functionality of the main GUI window.
     '''
 
     root = Tk()

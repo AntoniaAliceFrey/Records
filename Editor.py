@@ -4,7 +4,8 @@ from DbAccess import *
 
 class Editor(DataCheck, DbAccess):
     '''
-    This class...
+    This class opens an Editor to edit a selected record 
+    or delete a selectet record from the database.
     '''
 
     def create_labels(self, window):

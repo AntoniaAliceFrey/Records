@@ -2,11 +2,12 @@ import sqlite3
 
 class DbAccess:
     '''
-    This class...
+    This class connects to the database, creates a cursor, 
+    commits changes and closes the connection
     '''
     def __init__(self):
         '''
-        This function...
+        Initialization
         '''
         self.database = "contact_data.db"
 
