@@ -10,9 +10,9 @@ To change or delete records, search and select an entry and click the *Edit Reco
 * SQLite
 
 ## Preview
-<img src="images/gui.png" width="100">
-<img src="images/selector.png" width="100">
-<img src="images/editor.png" width="100">
+<img src="images/gui.png" width="300">
+<img src="images/selector.png" width="300">
+<img src="images/editor.png" width="300">
 
 ## Conclusion
 * Simple GUIs can be built with Tkinter windows and widgets. Tkinter arranges label, entry, and button widgets in a window using a grid layout. The button widgets can be linked to functions and the data in entry widgets can be extracted for use elsewhere.
