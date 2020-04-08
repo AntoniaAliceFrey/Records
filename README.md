@@ -6,8 +6,8 @@
 * [Technologies Utilized](#technologies)
 * [Preview](#preview)
 * [Project Status](#status)
-* [Inspiration](#inspiration)
 * [Conclusion](#conclusion)
+* [Sources](#src)
 
 ## General info
 *Records* is a database app built with Python, Tkinter, and SQLite.
@@ -29,9 +29,14 @@ Project is created with:
 ## Project Status
 Not perfect, but working.
 
-## Inspiration
-This app is inspired by a [**Tkinter Course - Create Graphic User Interfaces in Python Tutorial**](https://www.youtube.com/watch?v=YXPyB4XeYLA&t=16842s) by [**freeCodeCamp.org**](https://www.youtube.com/channel/UC8butISFwT-Wl7EV0hUK0BQ).
+### To Do
+* Code cleanup
+* Some fix-me's
+* Return to selector window after editing
 
 ## Conclusion
 * Simple GUIs can be built with Tkinter windows and widgets. Tkinter arranges label, entry, and button widgets in a window using a grid layout. The button widgets can be linked to functions and the data in entry widgets can be extracted for use elsewhere.
 * The main steps for working with a SQLite database are connecting to a database, creating a cursor object, writing an SQL query, commiting changes, and closing the database connection.
+
+## Sources
+This app is inspired by the [**Tkinter Course - Create Graphic User Interfaces in Python Tutorial**](https://www.youtube.com/watch?v=YXPyB4XeYLA&t=16842s) by [**freeCodeCamp.org**](https://www.youtube.com/channel/UC8butISFwT-Wl7EV0hUK0BQ).
