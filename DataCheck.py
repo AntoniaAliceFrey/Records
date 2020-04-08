@@ -5,12 +5,6 @@ class DataCheck:
     '''
     This class contains some check methods to validate user entered data and selections.
     '''
-
-    def __init__(self):
-        '''
-        Initialization
-        '''
-
     def is_int(self, var):
         '''
         This function checks if var (string) contains numbers and is an integer.

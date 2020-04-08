@@ -3,10 +3,9 @@ from Editor import *
 from DataCheck import *
 from DbAccess import *
 
-class Viewer(DataCheck, DbAccess):
+class Selector(DataCheck, DbAccess):
     '''
-    This class visualizes the database content.
-    if the textboxes in the main window are empty, all records in the database are shown.
+    This class displays the records in the database.
     '''
 
     def __init__(self):
@@ -41,7 +40,7 @@ class Viewer(DataCheck, DbAccess):
         '''
         This function prints the record data in the window.
         '''
-        self.radio_var = StringVar(self.viewer)
+        self.radio_var = StringVar(self.selector)
         # Uncomment to autoselect first record
         #self.radio_var.set(str(data[0][5]))
 
@@ -50,7 +49,7 @@ class Viewer(DataCheck, DbAccess):
         for record in data:
             oid = record[5]
             txt = str(record[0])+ " " + str(record[1])
-            Radiobutton(self.viewer, text=txt, variable=self.radio_var,
+            Radiobutton(self.selector, text=txt, variable=self.radio_var,
                         value=oid).grid(row=pos, column=0, sticky=W)
             pos += 1
 
@@ -62,7 +61,7 @@ class Viewer(DataCheck, DbAccess):
         and returns all record or records with the searched f_name.
         '''
         try:
-            self.viewer.destroy()
+            self.selector.destroy()
             func = "update data"
         except:
             func = "show data"
@@ -91,10 +90,10 @@ class Viewer(DataCheck, DbAccess):
         This function calls the editor if a radio button is selected
         '''
         # Check whether one radio button is selected
-        # XXX why does the viewer window close here?
+        # XXX why does the selector window close here?
         chk = self.check_sel(oid)
         if chk:
-            self.viewer.destroy()
+            self.selector.destroy()
             self.editor.make_window(oid) #
             #self.make_window(data)
 
@@ -108,21 +107,21 @@ class Viewer(DataCheck, DbAccess):
         if len(records) == 0:
             return
 
-        self.viewer = Tk()
+        self.selector = Tk()
         y_win = 150 + len(records)*20
-        self.viewer.geometry("400x"+ str(y_win))
-        self.viewer.title("Records")
+        self.selector.geometry("400x"+ str(y_win))
+        self.selector.title("Records")
 
         pos = self.print_records(records)
 
-        edit_btn = Button(self.viewer, text="Edit Record",
+        edit_btn = Button(self.selector, text="Edit Record",
                           command=lambda: self.edit_record(self.radio_var.get(), data))
         edit_btn.grid(row=pos, column=0, columnspan=2, pady=(20, 0), padx=10, ipadx=135)
 
-        delete_btn = Button(self.viewer, text="Delete Record", 
+        delete_btn = Button(self.selector, text="Delete Record", 
                             command=lambda: [self.editor.delete_record(self.radio_var.get()),
                                              self.make_window(data)])
         delete_btn.grid(row=pos+1, column=0, columnspan=2, pady=(5, 0), padx=10, ipadx=125)
 
-        close_btn = Button(self.viewer, text="Close", command=self.viewer.destroy)
+        close_btn = Button(self.selector, text="Close", command=self.selector.destroy)
         close_btn.grid(row=pos+2, column=0, columnspan=2, pady=(5, 0), padx=10, ipadx=153)

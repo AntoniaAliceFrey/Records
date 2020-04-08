@@ -15,7 +15,7 @@ class DbAccess:
         '''
         This function connects to the database and creates a cursor.
         '''
-        #conn = sqlite3.connect(self.database)
+        #conn = sqlite3.connect(self.database) #XXX
         conn = sqlite3.connect("contact_data.db")
         c = conn.cursor()
         return c, conn

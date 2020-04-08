@@ -4,8 +4,8 @@ from DbAccess import *
 
 class Editor(DataCheck, DbAccess):
     '''
-    This class opens an Editor to edit a selected record 
-    or delete a selectet record from the database.
+    This class opens an Editor to edit or delete a selected record 
+    from the database.
     '''
 
     def create_labels(self, window):
@@ -25,10 +25,10 @@ class Editor(DataCheck, DbAccess):
         self.birthday_label.grid(row=4, column=0)
 
 
-    def create_textboxes(self, window, data=None):
+    def create_textboxes(self, window, data):
         '''
         This function creates the textboxes in window.
-        If data is not None, then record data is inserted in the textboxes.
+        Pre-fill fields for selected record.
         '''
 
         self.f_name = Entry(window, width=30)
@@ -37,12 +37,11 @@ class Editor(DataCheck, DbAccess):
         self.phone = Entry(window, width=30)
         self.birthday = Entry(window, width=30)
 
-        if data:
-            self.f_name.insert(0, data[0])
-            self.l_name.insert(0, data[1])
-            self.email.insert(0, data[2])
-            self.phone.insert(0, data[3])
-            self.birthday.insert(0, data[4])
+        self.f_name.insert(0, data[0])
+        self.l_name.insert(0, data[1])
+        self.email.insert(0, data[2])
+        self.phone.insert(0, data[3])
+        self.birthday.insert(0, data[4])
 
         self.f_name.grid(row=0, column=1, padx=20, pady=(10, 0))
         self.l_name.grid(row=1, column=1, padx=20)
@@ -93,7 +92,7 @@ class Editor(DataCheck, DbAccess):
     def make_window(self, oid):
         '''
         This function creates a window to edit a selected record.
-        A record is selected by clicking a radiobutton in the viewer window.
+        A record is selected by clicking a radiobutton in the select window.
         Radiobuttons have one variable which contains the oid value of the selected record.
         '''
         # Create new window
@@ -110,7 +109,8 @@ class Editor(DataCheck, DbAccess):
         self.create_textboxes(editor, tb_data)
 
         # Create a save button
-        save_btn = Button(editor, text="Save changes", command=lambda: self.update(oid, editor))
+        save_btn = Button(editor, text="Save changes", 
+                          command=lambda: self.update(oid, editor))
         save_btn.grid(row=6, column=0, columnspan=2, pady=(10, 0), padx=10, ipadx=130)
 
         self.disconnect_to_db(conn)
