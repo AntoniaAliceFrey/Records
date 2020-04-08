@@ -1,6 +1,6 @@
 import sqlite3
 
-class DbAccess:
+class DBAccess:
     '''
     This class connects to the database, creates a cursor, 
     commits changes and closes the connection

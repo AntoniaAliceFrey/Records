@@ -78,6 +78,6 @@ class DataCheck:
         This function checks whether a record is found, if the user wants to search a specific record.
         '''
         if len(data) == 0:
-            messagebox.showerror("ERROR", "No matching Record found.\n")
+            messagebox.showerror("ERROR", "Record not found.\n")
             return False
         return True

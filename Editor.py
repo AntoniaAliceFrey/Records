@@ -1,8 +1,8 @@
 from tkinter import *
 from DataCheck import *
-from DbAccess import *
+from DBAccess import *
 
-class Editor(DataCheck, DbAccess):
+class Editor(DataCheck, DBAccess):
     '''
     This class opens an Editor to edit or delete a selected record 
     from the database.
@@ -109,8 +109,8 @@ class Editor(DataCheck, DbAccess):
         self.create_textboxes(editor, tb_data)
 
         # Create a save button
-        save_btn = Button(editor, text="Save changes", 
+        save_btn = Button(editor, text="Save", 
                           command=lambda: self.update(oid, editor))
-        save_btn.grid(row=6, column=0, columnspan=2, pady=(10, 0), padx=10, ipadx=130)
+        save_btn.grid(row=6, column=0, columnspan=2, pady=(20, 0), padx=10, ipadx=145)
 
         self.disconnect_to_db(conn)

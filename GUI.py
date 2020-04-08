@@ -2,7 +2,7 @@ from tkinter import *
 from pathlib import Path
 from Selector import *
 
-class GUI(DbAccess):
+class GUI(DBAccess):
     '''
     This class contains the functionality of the main GUI window.
     '''
@@ -111,18 +111,18 @@ class GUI(DbAccess):
         '''
         This function creates the GUI start window.
         '''
-        self.frame = LabelFrame(self.root, text="Contact Form", padx=2, pady=10)
-        self.frame.grid(row=0, column=0, columnspan=2, padx=20, pady=30)# padding outside
-        self.create_labels(self.frame)
-        self.create_textboxes(self.frame)
+        self.contact_form = LabelFrame(self.root, text="Contact Form", padx=2, pady=10)
+        self.contact_form.grid(row=0, column=0, columnspan=2, padx=20, pady=30)# padding outside
+        self.create_labels(self.contact_form)
+        self.create_textboxes(self.contact_form)
 
-        self.submit_btn = Button(self.frame, text="Add Record", command=self.submit)
+        self.submit_btn = Button(self.contact_form, text="Add Record", command=self.submit)
         self.submit_btn.grid(row=5, column=0, columnspan=2, pady=(20, 0), padx=10, ipadx=142)
 
-        self.search_btn = Button(self.frame, text="Search Records", 
+        self.search_btn = Button(self.contact_form, text="Search Record", 
                                  command=lambda: [self.selector.make_window(self.get_tb_data()),
                                                   self.clear_textboxes])
-        self.search_btn.grid(row=6, column=0, columnspan=2, pady=(5, 5), padx=10, ipadx=129)
+        self.search_btn.grid(row=6, column=0, columnspan=2, pady=(5, 5), padx=10, ipadx=133)
 
         # Statusbar at bottom
         status = Label(self.root, text="Records ", relief=SUNKEN, anchor=E)

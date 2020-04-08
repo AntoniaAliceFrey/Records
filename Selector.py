@@ -1,9 +1,9 @@
 from tkinter import *
 from Editor import *
 from DataCheck import *
-from DbAccess import *
+from DBAccess import *
 
-class Selector(DataCheck, DbAccess):
+class Selector(DataCheck, DBAccess):
     '''
     This class displays the records in the database.
     '''
