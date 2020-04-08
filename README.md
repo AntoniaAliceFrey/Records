@@ -30,8 +30,10 @@ Project is created with:
 Not perfect, but working.
 
 ### To Do
+Some ideas to improve the functionality:
 * Code cleanup
 * Some fix-me's in code
+* Create a dist folder, py2app
 * Search record functionality
 * Check birthday and e-mail fields
 * Birthday calendar or drop down menu
@@ -39,6 +41,7 @@ Not perfect, but working.
 * Select and delete multiple records
 * Print (selected) records in excel file
 * send conformation email to new entry?
+* pylint code_check_and_formating file
 
 ## Conclusion
 * Simple GUIs can be built with Tkinter windows and widgets. Tkinter arranges label, entry, and button widgets in a window using a grid layout. The button widgets can be linked to functions and the data in entry widgets can be extracted for use elsewhere.
