@@ -31,8 +31,14 @@ Not perfect, but working.
 
 ### To Do
 * Code cleanup
-* Some fix-me's
+* Some fix-me's in code
+* Search record functionality
+* Check birthday and e-mail fields
+* Birthday calendar or drop down menu
 * Return to selector window after editing
+* Select and delete multiple records
+* Print (selected) records in excel file
+* send conformation email to new entry?
 
 ## Conclusion
 * Simple GUIs can be built with Tkinter windows and widgets. Tkinter arranges label, entry, and button widgets in a window using a grid layout. The button widgets can be linked to functions and the data in entry widgets can be extracted for use elsewhere.
