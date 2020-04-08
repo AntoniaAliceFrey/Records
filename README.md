@@ -5,6 +5,8 @@
 * [How to Use](#setup)
 * [Technologies Utilized](#technologies)
 * [Preview](#preview)
+* [Project Status](#status)
+* [Inspiration](#inspiration)
 * [Conclusion](#conclusion)
 
 ## General info
@@ -23,6 +25,12 @@ Project is created with:
 <img src="images/gui.png" width="350">
 <img src="images/selector.png" width="350">
 <img src="images/editor.png" width="350">
+
+## Project Status
+Not perfect, but working.
+
+## Inspiration
+This app is inspired by a [**Tkinter Course - Create Graphic User Interfaces in Python Tutorial**](https://www.youtube.com/watch?v=YXPyB4XeYLA&t=16842s) by [**freeCodeCamp.org**](https://www.youtube.com/channel/UC8butISFwT-Wl7EV0hUK0BQ).
 
 ## Conclusion
 * Simple GUIs can be built with Tkinter windows and widgets. Tkinter arranges label, entry, and button widgets in a window using a grid layout. The button widgets can be linked to functions and the data in entry widgets can be extracted for use elsewhere.
