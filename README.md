@@ -1,4 +1,13 @@
 # Records
+
+## Table of contents
+* [General info](#general-info)
+* [How to Use](#setup)
+* [Technologies Utilized](#technologies)
+* [Preview](#preview)
+* [Conclusion](#conclusion)
+
+## General info
 *Records* is a database app built with Python, Tkinter, and SQLite.
 
 ## How to Use
@@ -6,6 +15,7 @@ To launch the app, open the *GUI.py* script via the console. To add a record int
 To change or delete records, search and select an entry and click the *Edit Record* or *Delete Record* button. Lastly, to return to the main window, click the *Close* button.
 
 ## Technologies Utilized
+Project is created with:
 * Tkinter
 * SQLite
 
