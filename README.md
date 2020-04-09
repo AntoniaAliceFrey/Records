@@ -32,16 +32,16 @@ Not perfect, but working.
 
 #### Next Steps:
 Some ideas to improve the functionality:
-- [] Code cleanup with pylintrc file
-- [] Some fix-me's in code
-- [] Create a dist folder, py2app
-- [] Search record functionality
-- [] Check birthday and email fields
-- [] Birthday calendar or drop down menu
-- [] Return to selector window after editing
-- [] Select and delete multiple records
-- [] Print (selected) records in excel file
-- [] Send conformation email
+- [ ] Code cleanup with pylintrc file
+- [ ] Some fix-me's in code
+- [ ] Create a dist folder, py2app
+- [ ] Search record functionality
+- [ ] Check birthday and email fields
+- [ ] Birthday calendar or drop down menu
+- [ ] Return to selector window after editing
+- [ ] Select and delete multiple records
+- [ ] Print (selected) records in excel file
+- [ ] Send conformation email
 
 
 ## Conclusion
