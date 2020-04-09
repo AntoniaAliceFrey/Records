@@ -32,8 +32,8 @@ Not perfect, but working.
 
 #### Next Steps
 Some ideas to improve the functionality:
-- [ ] Code cleanup with pylintrc file
 - [ ] Some fix-me's in code
+- [ ] Code cleanup with pylintrc file
 - [ ] Create a dist folder, py2app
 - [ ] Search record functionality
 - [ ] Check birthday and email fields
@@ -41,7 +41,7 @@ Some ideas to improve the functionality:
 - [ ] Return to selector window after editing
 - [ ] Select and delete multiple records
 - [ ] Print (selected) records in excel file
-- [ ] Send conformation email
+- [ ] Send a conformation email to new record
 
 
 ## Conclusion
