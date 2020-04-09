@@ -30,7 +30,7 @@ Project is created with:
 ## Project Status
 Not perfect, but working.
 
-#### Next Steps:
+#### Next Steps
 Some ideas to improve the functionality:
 - [ ] Code cleanup with pylintrc file
 - [ ] Some fix-me's in code
