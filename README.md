@@ -49,4 +49,4 @@ Some ideas to improve the functionality:
 * The main steps for working with a SQLite database are connecting to a database, creating a cursor object, writing an SQL query, commiting changes, and closing the database connection.
 
 ## Sources
-This app is inspired by the [**Tkinter Course - Create Graphic User Interfaces in Python Tutorial**](https://www.youtube.com/watch?v=YXPyB4XeYLA&t=16842s) by [**freeCodeCamp.org**](https://www.youtube.com/channel/UC8butISFwT-Wl7EV0hUK0BQ).
+I created this app after watching a [**Tkinter tutorial**](https://www.youtube.com/watch?v=YXPyB4XeYLA&t=16842s) on YouTube by John Elder from [**Codemy.com**](https://codemy.com) and [**freeCodeCamp.org**](https://www.youtube.com/channel/UC8butISFwT-Wl7EV0hUK0BQ).
