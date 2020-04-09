@@ -4,8 +4,9 @@
 * [General info](#general-info)
 * [How to Use](#setup)
 * [Technologies Utilized](#technologies)
-* [Preview](#preview)
 * [Project Status](#status)
+    * [Next Steps](#next-steps)
+* [Preview](#preview)
 * [Conclusion](#conclusion)
 * [Sources](#src)
 
@@ -21,27 +22,26 @@ Project is created with:
 * Tkinter
 * SQLite
 
+## Project Status
+Not perfect, but working.
+
+#### Next Steps
+Some ideas to improve the functionality:
+- [ ] Some fix-me's in code
+- [ ] Code cleanup with pylintrc file
+- [ ] Create a dist folder, py2app
+- [ ] Search record functionality
+- [ ] Check birthday and email fields
+- [ ] Birthday calendar or drop down menu
+- [ ] Return to selector window after editing
+- [ ] Select and delete multiple records
+- [ ] Print (selected) records in excel file
+- [ ] Send a conformation email to new record
+
 ## Preview
 <img src="images/gui.png" width="350">
 <img src="images/selector.png" width="350">
 <img src="images/editor.png" width="350">
-
-## Project Status
-Not perfect, but working.
-
-### To Do
-Some ideas to improve the functionality:
-* Code cleanup
-* Some fix-me's in code
-* Create a dist folder, py2app
-* Search record functionality
-* Check birthday and e-mail fields
-* Birthday calendar or drop down menu
-* Return to selector window after editing
-* Select and delete multiple records
-* Print (selected) records in excel file
-* send conformation email to new entry?
-* pylint code_check_and_formating file
 
 ## Conclusion
 * Simple GUIs can be built with Tkinter windows and widgets. Tkinter arranges label, entry, and button widgets in a window using a grid layout. The button widgets can be linked to functions and the data in entry widgets can be extracted for use elsewhere.
@@ -51,4 +51,3 @@ Some ideas to improve the functionality:
 This app is inspired by the [**Tkinter Course - Create Graphic User Interfaces in Python Tutorial**](https://www.youtube.com/watch?v=YXPyB4XeYLA&t=16842s) by [**freeCodeCamp.org**](https://www.youtube.com/channel/UC8butISFwT-Wl7EV0hUK0BQ).
 
 To create an executable I used Pyinstaller and followed the steps in this [**tutorial**](https://www.youtube.com/watch?v=UZX5kH72Yx4).
-
