@@ -6,7 +6,7 @@
 * [Technologies Utilized](#technologies)
 * [Preview](#preview)
 * [Project Status](#status)
-    * [To_Do](#todo)
+    * [Next Steps](#next-steps)
 * [Conclusion](#conclusion)
 * [Sources](#src)
 
