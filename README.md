@@ -4,9 +4,9 @@
 * [General info](#general-info)
 * [How to Use](#setup)
 * [Technologies Utilized](#technologies)
-* [Preview](#preview)
 * [Project Status](#status)
     * [Next Steps](#next-steps)
+* [Preview](#preview)
 * [Conclusion](#conclusion)
 * [Sources](#src)
 
@@ -21,11 +21,6 @@ To change or delete records, search and select an entry and click the *Edit Reco
 Project is created with:
 * Tkinter
 * SQLite
-
-## Preview
-<img src="images/gui.png" width="350">
-<img src="images/selector.png" width="350">
-<img src="images/editor.png" width="350">
 
 ## Project Status
 Not perfect, but working.
@@ -43,6 +38,10 @@ Some ideas to improve the functionality:
 - [ ] Print (selected) records in excel file
 - [ ] Send a conformation email to new record
 
+## Preview
+<img src="images/gui.png" width="350">
+<img src="images/selector.png" width="350">
+<img src="images/editor.png" width="350">
 
 ## Conclusion
 * Simple GUIs can be built with Tkinter windows and widgets. Tkinter arranges label, entry, and button widgets in a window using a grid layout. The button widgets can be linked to functions and the data in entry widgets can be extracted for use elsewhere.
